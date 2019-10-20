@@ -7,7 +7,7 @@
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-scripts": "2.1.3"
+    "react-scripts": "3.2.0"
   },
   "homepage": "./",
   "scripts": {
@@ -16,7 +16,7 @@
     "clean": "shx rm -rf build dist",
     "prepackage": "react-scripts build",
     "package": "shx mkdir build/src && shx cp -r electron/. build/electron && shx cp -r src/shared/. build/src/shared",
-    "postpackage": "build --win -c.extraMetadata.main=build/electron/main.js --publish never",
+    "postpackage": "build --win --mac -c.extraMetadata.main=build/electron/main.js --publish never",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -41,9 +41,9 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "cross-env": "^5.2.0",
-    "electron": "^4.2.5",
-    "electron-builder": "^20.44.4",
+    "cross-env": "^6.0.3",
+    "electron": "^6.0.12",
+    "electron-builder": "^21.2.0",
     "shx": "^0.3.2"
   }
 }
