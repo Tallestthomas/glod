@@ -1,0 +1,49 @@
+{
+  "name": "electron-react-boilerplate",
+  "version": "0.1.0",
+  "productName": "Electron Create React App Boilerplate",
+  "main": "electron/main.js",
+  "private": true,
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "2.1.3"
+  },
+  "homepage": "./",
+  "scripts": {
+    "start": "react-scripts start",
+    "start-electron": "cross-env ELECTRON_START_URL=http://localhost:3000 electron .",
+    "clean": "shx rm -rf build dist",
+    "prepackage": "react-scripts build",
+    "package": "shx mkdir build/src && shx cp -r electron/. build/electron && shx cp -r src/shared/. build/src/shared",
+    "postpackage": "build --win -c.extraMetadata.main=build/electron/main.js --publish never",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "build": {
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "publish": {
+      "provider": "github",
+      "repo": "electron-react-boilerplate",
+      "owner": "burhanuday"
+    }
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "electron": "^4.2.5",
+    "electron-builder": "^20.44.4",
+    "shx": "^0.3.2"
+  }
+}
