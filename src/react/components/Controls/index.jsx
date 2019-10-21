@@ -1,12 +1,18 @@
 import React from 'react';
 
-const Controls = () => {
+const Controls = (props) => {
+  const { isRunning, start, stop, split, pause } = props || {};
+
   return (
     <div className="controls">
-      <button>Start</button>
-      <button>Pause</button>
+      { !isRunning 
+          ?  <button onClick={() => start()}>Start</button>
+          : <button onClick={() => stop()}>Stop</button>
+      }
+      <button onClick={() => pause()}>Pause</button>
       <button>Previous</button>
       <button>Next</button>
+      <button onClick={() => split()}>Split</button>
     </div>
   );
 };

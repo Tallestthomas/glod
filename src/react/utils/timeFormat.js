@@ -15,7 +15,7 @@ const timeFormat = (miliseconds) => {
 
   const minutes = parseInt(remaining / 60, 10);
   const seconds = parseInt(remaining % 60, 10);
-  const ms = parseInt((miliseconds % 1000) / 100, 10);
+  const ms = parseInt((miliseconds % 1000) / 10, 10);
 
   return `${zeroPadding(hour)}:${zeroPadding(minutes)}:${zeroPadding(seconds)}.${zeroPadding(ms)}`
 }
