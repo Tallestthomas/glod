@@ -18,14 +18,14 @@
   },
   "homepage": "./",
   "scripts": {
-    "start": "react-scripts start",
-    "start-electron": "cross-env ELECTRON_START_URL=http://localhost:3000 electron .",
+    "start": "rescripts start",
+    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "clean": "shx rm -rf build dist",
-    "prepackage": "react-scripts build",
+    "prepackage": "rescripts build",
     "package": "shx mkdir build/src && shx cp -r electron/. build/electron && shx cp -r src/shared/. build/src/shared",
     "postpackage": "electron-builder build --win --mac -c.extraMetadata.main=build/electron/main.js --publish never",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "rescripts test",
+    "eject": "rescripts eject"
   },
   "build": {
     "files": [
@@ -48,10 +48,15 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@rescripts/cli": "0.0.13",
+    "@rescripts/rescript-env": "0.0.11",
+    "concurrently": "^5.0.0",
     "cross-env": "^6.0.3",
     "electron": "^7.0.0",
     "electron-builder": "^21.2.0",
+    "electron-is-dev": "^1.1.0",
     "redux-mock-store": "^1.5.3",
-    "shx": "^0.3.2"
+    "shx": "^0.3.2",
+    "wait-on": "^3.3.0"
   }
 }

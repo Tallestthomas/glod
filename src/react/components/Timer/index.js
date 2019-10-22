@@ -1,12 +1,6 @@
 import React from 'react';
 import { Stopwatch, Controls, Splits } from '../';
 import { connect } from 'react-redux';
-import { 
-  startTimer,
-  stopTimer,
-  setSplit
-} from '../../actions/timerActions';
-
 
 class Timer extends React.Component {
   state = {
@@ -25,30 +19,20 @@ class Timer extends React.Component {
   };
 
   startTimer = () => {
-    const { dispatch } = this.props;
-
     this.timerRef = setInterval( () => this.updateTimer(10), 10);
-    dispatch(startTimer());
   }
 
   pauseTimer = () => {
-    const { dispatch }  = this.props;
-
     clearInterval(this.timerRef);
-    dispatch(stopTimer());
   }
 
   stopTimer = () => {
-    const { dispatch } = this.props;
-
-    this.setState({ time: 0, currentTimes: []}, () => {
-      clearInterval(this.timerRef);
-      dispatch(stopTimer())
-    });
+    clearInterval(this.timerRef); 
+    this.setState({ time: 0, currentTimes: []});
   }
 
   splitTime = () => {
-    const { dispatch, splitLength} = this.props;
+    const { splitLength} = this.props;
     const { currentSplit, time, currentTimes} = this.state;
 
     if(currentSplit !== splitLength - 1) {
@@ -58,6 +42,7 @@ class Timer extends React.Component {
       })
     } else {
       this.setState({ 
+        currentSplit: 0,
         currentTimes: [...currentTimes, time]
       })
       clearInterval(this.timerRef);
@@ -76,6 +61,7 @@ class Timer extends React.Component {
         <Splits currentTimes={currentTimes}/>
         <Stopwatch time={time} currentSplit={currentSplit} />
         <Controls 
+          currentSplit={currentSplit}
           start={this.startTimer}
           stop={this.stopTimer}
           pause={this.pauseTimer}

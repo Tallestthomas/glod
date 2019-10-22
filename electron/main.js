@@ -1,20 +1,27 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, globalShortcut} = require('electron');
+const isDev = require('electron-is-dev')
 const path = require('path');
-const url = require('url');
 const { channels } = require('../src/shared/constants');
 
 let mainWindow;
 
 function createWindow () {
-  const startUrl = process.env.ELECTRON_START_URL || url.format({
-    pathname: path.join(__dirname, '../index.html'),
-    protocol: 'file:',
-    slashes: true,
+  mainWindow = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true,
+    },
+    width: 900, 
+    height: 680
   });
-  mainWindow = new BrowserWindow({ width: 800, height: 600 });
-  mainWindow.loadURL(startUrl);
-  mainWindow.on('closed', function () {
-    mainWindow = null;
+  mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
+  if (isDev) {
+    // Open the DevTools.
+    //BrowserWindow.addDevToolsExtension('<location to your react chrome extension>');
+    mainWindow.webContents.openDevTools();
+  }
+  mainWindow.on('closed', () => {
+    globalShortcut.unregisterAll();
+    mainWindow = null
   });
 }
 
