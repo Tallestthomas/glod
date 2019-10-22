@@ -46,6 +46,7 @@ const Split = styled.div`
 display: flex;
 flex-direction: row;
 padding: 0.5rem 1rem;
+font-variant-numeric: tabular-nums lining-nums;
 `
 
 const SplitName = styled.div`
