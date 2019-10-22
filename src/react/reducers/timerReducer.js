@@ -6,32 +6,26 @@ const initialState = {
   isRunning: false,
   splits: [
     {
-      id: '1',
+      index: 0,
       name: 'Stasis',
       time: null,
       best: null
     },
     {
-      id: '2',
+      index: 1,
       name: 'Cryonis',
       time: null,
       best: null
     },
     {
-      id: '3',
+      index: 2,
       name: 'Magnesis',
       time: null,
       best: null
     },
     {
-      id: '4',
+      index: 3,
       name: 'Bombs',
-      time: null,
-      best: null
-    },
-    {
-      id: '5',
-      name: 'Paraglider',
       time: null,
       best: null
     },
@@ -55,14 +49,10 @@ export default (state = initialState, {type, payload}) => {
     case 'SET_SPLIT': {
 
       const newSplits = state.splits.map(split => { 
-        console.log(split.id, payload.id);
-        return split.id === payload.id
+        return split.index === payload.index
           ? { ...split, time: payload.time }
           : split
-      }
-      );
-
-      console.log(newSplits);
+      });
 
       return {
         ...state,
