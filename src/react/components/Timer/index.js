@@ -11,7 +11,7 @@ import {
 class Timer extends React.Component {
   state = {
     time: 0,
-    currentSplit: 1
+    currentSplit: 0
   };
 
   timerRef = null;
@@ -50,12 +50,14 @@ class Timer extends React.Component {
     const { splits, dispatch } = this.props;
     const { currentSplit, time} = this.state;
 
-    if(currentSplit + 1 === splits.length) {
-      dispatch(setSplit(currentSplit, time));
-      dispatch(stopTimer())
-    } else {
+    if(currentSplit !== splits.length - 1) {
+
       dispatch(setSplit(currentSplit, time));
       this.setState({ currentSplit: currentSplit + 1 })
+    } else {
+      dispatch(setSplit(currentSplit, time));
+      clearInterval(this.timerRef);
+      dispatch(stopTimer())
     }
   }
 

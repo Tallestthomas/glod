@@ -7,10 +7,10 @@ export const startTimer = () => ({ type: START_TIMER });
 
 export const stopTimer = () => ({ type: STOP_TIMER});
 
-export const setSplit = (id, time) => ({
+export const setSplit = (index, time) => ({
   type: 'SET_SPLIT',
   payload: {
-    id,
+    index,
     time
   }
 })
