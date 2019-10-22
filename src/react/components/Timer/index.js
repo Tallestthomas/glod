@@ -1,6 +1,6 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Stopwatch, Controls, Splits } from '../';
+import { connect } from 'react-redux';
 import { 
   startTimer,
   stopTimer,
@@ -47,10 +47,10 @@ class Timer extends React.Component {
   }
 
   splitTime = () => {
-    const { splits, dispatch } = this.props;
+    const { dispatch, splitLength} = this.props;
     const { currentSplit, time} = this.state;
 
-    if(currentSplit !== splits.length - 1) {
+    if(currentSplit !== splitLength - 1) {
 
       dispatch(setSplit(currentSplit, time));
       this.setState({ currentSplit: currentSplit + 1 })
@@ -62,14 +62,12 @@ class Timer extends React.Component {
   }
 
   render() {
-    const { isRunning, splits } = this.props;
     const { time, currentSplit } = this.state;
     return (
       <div className="timer-container">
-        <Splits splits={splits}/>
+        <Splits />
         <Stopwatch time={time} currentSplit={currentSplit} />
         <Controls 
-          isRunning={isRunning}
           start={this.startTimer}
           stop={this.stopTimer}
           pause={this.pauseTimer}
@@ -80,11 +78,10 @@ class Timer extends React.Component {
   }
 }
 
-const mapStateToProps = ({timerReducer}) => {
-  const { isRunning, splits } = timerReducer;
+const mapStateToProps = ({ timerReducer }) => {
+  const { splits } = timerReducer || {};
   return {
-    isRunning,
-    splits
+    splitLength: splits.length
   }
 }
 
