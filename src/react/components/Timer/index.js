@@ -11,7 +11,8 @@ import {
 class Timer extends React.Component {
   state = {
     time: 0,
-    currentSplit: 0
+    currentSplit: 0,
+    currentTimes: []
   };
 
   timerRef = null;
@@ -40,7 +41,7 @@ class Timer extends React.Component {
   stopTimer = () => {
     const { dispatch } = this.props;
 
-    this.setState({ time: 0}, () => {
+    this.setState({ time: 0, currentTimes: []}, () => {
       clearInterval(this.timerRef);
       dispatch(stopTimer())
     });
@@ -48,24 +49,31 @@ class Timer extends React.Component {
 
   splitTime = () => {
     const { dispatch, splitLength} = this.props;
-    const { currentSplit, time} = this.state;
+    const { currentSplit, time, currentTimes} = this.state;
 
     if(currentSplit !== splitLength - 1) {
-
-      dispatch(setSplit(currentSplit, time));
-      this.setState({ currentSplit: currentSplit + 1 })
+      this.setState({ 
+        currentSplit: currentSplit + 1,
+        currentTimes: [...currentTimes, time]
+      })
     } else {
-      dispatch(setSplit(currentSplit, time));
+      this.setState({ 
+        currentTimes: [...currentTimes, time]
+      })
       clearInterval(this.timerRef);
-      dispatch(stopTimer())
     }
   }
 
   render() {
-    const { time, currentSplit } = this.state;
+    const { 
+      time,
+      currentSplit,
+      currentTimes,
+    } = this.state;
+
     return (
       <div className="timer-container">
-        <Splits />
+        <Splits currentTimes={currentTimes}/>
         <Stopwatch time={time} currentSplit={currentSplit} />
         <Controls 
           start={this.startTimer}

@@ -5,13 +5,13 @@ import styled from 'styled-components';
 
 class Splits extends React.PureComponent {
   render(){
-    const { splits } = this.props || {};
+    const { splits, currentTimes } = this.props || {};
     return (
       <SplitsContainer>
         {
-          splits.map(split => {
-            const { name, time } = split || {};
-            const timeToRender = (time === null || time === 0) ? '-' : timeFormat(time);
+          splits.map((split, index) => {
+            const { name } = split || {};
+            const timeToRender = ( !currentTimes[index] || currentTimes[index] === 0) ? '-' : timeFormat(currentTimes[index]);
             return(
               <Split key={split.index}>
                 <SplitName>
