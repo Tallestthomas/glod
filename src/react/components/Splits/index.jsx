@@ -1,29 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { timeFormat } from '../../utils';
+import styled from 'styled-components';
 
 class Splits extends React.PureComponent {
   render(){
     const { splits } = this.props || {};
     return (
-      <div className="splits">
+      <SplitsContainer>
         {
           splits.map(split => {
             const { name, time } = split || {};
             const timeToRender = (time === null || time === 0) ? '-' : timeFormat(time);
             return(
-              <div className="split" key={split.index}>
-                <span className="split-name">
+              <Split key={split.index}>
+                <SplitName>
                   { name }
-                </span>
-                <span>
+                </SplitName>
+                <SplitTimes>
                   {timeToRender}
-                </span>
-              </div>
+                </SplitTimes>
+              </Split>
             )
           })
         }
-      </div>
+      </SplitsContainer>
     );
   }
 }
@@ -36,3 +37,20 @@ const mapStateToProps = ({timerReducer}) => {
 }
 
 export default connect(mapStateToProps)(Splits);
+
+const SplitsContainer = styled.div`
+width: 100%;
+`
+
+const Split = styled.div`
+display: flex;
+flex-direction: row;
+padding: 0.5rem 1rem;
+`
+
+const SplitName = styled.div`
+`
+
+const SplitTimes = styled.div`
+margin-left: auto;
+`

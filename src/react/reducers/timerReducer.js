@@ -29,6 +29,36 @@ const initialState = {
       time: null,
       best: null
     },
+    {
+      index: 4,
+      name: 'Glider',
+      time: null,
+      best: null
+    },
+    {
+      index: 5,
+      name: 'Castle',
+      time: null,
+      best: null
+    },
+    {
+      index: 6,
+      name: 'Blights',
+      time: null,
+      best: null
+    },
+    {
+      index: 7,
+      name: 'Calamity',
+      time: null,
+      best: null
+    },
+    {
+      index: 8,
+      name: 'Dark Beast',
+      time: null,
+      best: null
+    }
   ]
 }
 
