@@ -1,6 +1,7 @@
 import React from 'react';
-import { Stopwatch, Controls, Splits } from '../';
 import { connect } from 'react-redux';
+import { stopTimer } from '../../actions/timerActions'
+import { Stopwatch, Controls, Splits } from '../';
 
 class Timer extends React.Component {
   state = {
@@ -32,21 +33,45 @@ class Timer extends React.Component {
   }
 
   splitTime = () => {
-    const { splitLength} = this.props;
+    const { isRunning, splitLength, dispatch} = this.props;
     const { currentSplit, time, currentTimes} = this.state;
 
-    if(currentSplit !== splitLength - 1) {
-      this.setState({ 
-        currentSplit: currentSplit + 1,
-        currentTimes: [...currentTimes, time]
-      })
-    } else {
-      this.setState({ 
-        currentSplit: 0,
-        currentTimes: [...currentTimes, time]
-      })
-      clearInterval(this.timerRef);
+    if(isRunning){
+      if(currentSplit !== splitLength - 1) {
+        this.setState({ 
+          currentSplit: currentSplit + 1,
+          currentTimes: [...currentTimes, time]
+        })
+      } else {
+        this.setState({ 
+          currentSplit: 0,
+          currentTimes: [...currentTimes, time]
+        })
+        clearInterval(this.timerRef);
+        dispatch(stopTimer());
+      }
     }
+  }
+
+  prevSplit = () => {
+    const { currentSplit, currentTimes } = this.state;
+
+    if(currentSplit > 0)
+      this.setState({
+        currentSplit: currentSplit - 1,
+        currentTimes: currentTimes.slice(0, -1)
+      });
+  }
+
+  nextSplit = () => {
+    const { currentSplit, currentTimes } = this.state;
+    const { splitLength } = this.props;
+
+    if(currentSplit < splitLength - 1)
+      this.setState({
+        currentSplit: currentSplit + 1,
+        currentTimes: [...currentTimes, null]
+      });
   }
 
   render() {
@@ -58,14 +83,19 @@ class Timer extends React.Component {
 
     return (
       <div className="timer-container">
-        <Splits currentTimes={currentTimes}/>
+        <Splits 
+          currentTimes={currentTimes}
+          currentSplit={currentSplit}
+        />
         <Stopwatch time={time} currentSplit={currentSplit} />
         <Controls 
           currentSplit={currentSplit}
+          next={this.nextSplit}
+          pause={this.pauseTimer}
+          prev={this.prevSplit}
+          split={this.splitTime}
           start={this.startTimer}
           stop={this.stopTimer}
-          pause={this.pauseTimer}
-          split={this.splitTime}
         />
       </div>
     )
@@ -73,8 +103,9 @@ class Timer extends React.Component {
 }
 
 const mapStateToProps = ({ timerReducer }) => {
-  const { splits } = timerReducer || {};
+  const { splits, isRunning } = timerReducer || {};
   return {
+    isRunning,
     splitLength: splits.length
   }
 }

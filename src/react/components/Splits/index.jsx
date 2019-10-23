@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 class Splits extends React.PureComponent {
   render(){
-    const { splits, currentTimes } = this.props || {};
+    const { splits, currentTimes, currentSplit } = this.props || {};
     return (
       <SplitsContainer>
         {
@@ -13,7 +13,7 @@ class Splits extends React.PureComponent {
             const { name } = split || {};
             const timeToRender = ( !currentTimes[index] || currentTimes[index] === 0) ? '-' : timeFormat(currentTimes[index]);
             return(
-              <Split key={split.index}>
+              <Split key={split.index} current={currentSplit === split.index}>
                 <SplitName>
                   { name }
                 </SplitName>
@@ -43,6 +43,8 @@ width: 100%;
 `
 
 const Split = styled.div`
+background-color: ${props => props.current ? 'rgba(255,255,255, 0.2)': ''};
+color: white;
 display: flex;
 flex-direction: row;
 padding: 0.5rem 1rem;

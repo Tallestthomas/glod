@@ -20,7 +20,7 @@ const timeFormat = (miliseconds) => {
   const hoursString = hours > 0 ? `${hours}:` : '';
   const minutesString = minutes > 0 ? `${minutes}:` : '';
 
-  return `${hoursString}${minutesString}${zeroPadding(seconds)}.${zeroPadding(ms)}`
+  return `${hoursString}${minutesString}${zeroPadding(seconds, minutes < 1 ? 1 : 2)}.${zeroPadding(ms)}`
 }
 
 export default timeFormat;

@@ -17,4 +17,5 @@ text-align: right;
 padding: 1rem;
 font-size: 2rem;
 font-variant-numeric: tabular-nums lining-nums;
+color: white;
 `

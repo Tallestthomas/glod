@@ -10,17 +10,17 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: true,
     },
-    width: 900, 
-    height: 680
+    width: 400, 
+    height: 680,
+    transparent: true,
+    hasShadow: false,
   });
-  mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
-  if (isDev) {
-    // Open the DevTools.
-    //BrowserWindow.addDevToolsExtension('<location to your react chrome extension>');
-    mainWindow.webContents.openDevTools();
+
+  mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../index.html')}`);
+
+  if(isDev) {
   }
   mainWindow.on('closed', () => {
-    globalShortcut.unregisterAll();
     mainWindow = null
   });
 }
@@ -38,6 +38,10 @@ app.on('activate', function () {
     createWindow();
   }
 });
+
+app.on('will-quit', () => {
+  globalShortcut.unregisterAll();
+})
 
 ipcMain.on(channels.APP_INFO, (event) => {
   event.sender.send(channels.APP_INFO, { 

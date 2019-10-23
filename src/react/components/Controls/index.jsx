@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {
   startTimer,
-  stopTimer
+  stopTimer,
+  showControls
 } from '../../actions/timerActions'
 const { remote } = window.require('electron');
 
@@ -16,6 +17,20 @@ class Controls extends React.PureComponent {
     })
     remote.globalShortcut.register('Cmd+r', () => {
       this.handleStop();
+    })
+
+    remote.globalShortcut.register('Cmd+1', () => {
+      this.handlePrev();
+    })
+
+    remote.globalShortcut.register('Cmd+2', () => {
+      this.handleNext();
+    })
+
+    remote.globalShortcut.register('Cmd+h', () => {
+      const { dispatch } = this.props;
+
+      dispatch(showControls())
     })
   }
 
@@ -33,11 +48,6 @@ class Controls extends React.PureComponent {
         this.handleStart()
       })
     }
-  }
-
-  componentWillUnmount() {
-    remote.globalShortcut.unregister('Cmd+g')
-    remote.globalShortcut.unregister('Cmd+r')
   }
 
   handlePause = () => {
@@ -60,14 +70,19 @@ class Controls extends React.PureComponent {
     stop();
   }
 
-  render(){
-    const { 
-      isRunning, 
-      split, 
-    } = this.props || {};
+  handlePrev = () => {
+    const { prev } = this.props;
+    prev();
+  }
 
-    return (
-      <div className="controls">
+  handleNext = () => {
+    const { next } = this.props;
+    next();
+  }
+
+  renderControls = () => {
+    const { isRunning } = this.props;
+    return ( <div className="controls">
         { !isRunning 
             ?  <button onClick={this.handleStart}>Start</button>
             : <button onClick={this.handleStop}>Stop</button>
@@ -75,16 +90,26 @@ class Controls extends React.PureComponent {
         <button onClick={this.handlePause}>Pause</button>
         <button>Previous</button>
         <button>Next</button>
-        <button onClick={() => split()}>Split</button>
       </div>
+    );
+  }
+
+  render(){
+    const { 
+      showControls
+    } = this.props || {};
+
+    return (
+      showControls ? this.renderControls() : null
     );
   }
 }
 
 const mapStateToProps = ({timerReducer}) => {
-  const { isRunning } = timerReducer;
+  const { isRunning, showControls } = timerReducer;
   return {
-    isRunning
+    isRunning,
+    showControls
   }
 }
 
