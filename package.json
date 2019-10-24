@@ -5,7 +5,6 @@
   "main": "electron/main.js",
   "private": true,
   "dependencies": {
-    "date-fns": "^2.6.0",
     "electron-is-dev": "^1.1.0"
   },
   "homepage": "./",
