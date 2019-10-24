@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { stopTimer } from '../../actions/timerActions'
 import { Stopwatch, Controls, Splits } from '../';
+import { msToTime, timeToMs } from '../../utils';
 
 class Timer extends React.Component {
   state = {
@@ -80,6 +81,8 @@ class Timer extends React.Component {
       currentSplit,
       currentTimes,
     } = this.state;
+
+    console.log(msToTime(timeToMs('-00:42:14.32')));
 
     return (
       <div className="timer-container">

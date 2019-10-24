@@ -7,7 +7,7 @@ const zeroPadding = (number, size = 2) => {
 }
 
 export const msToTime = (miliseconds) => {
-  let remaining = miliseconds / 1000;
+  let remaining = Math.abs(miliseconds / 1000);
 
   const hours = parseInt(remaining / 3600, 10);
 
@@ -25,11 +25,14 @@ export const msToTime = (miliseconds) => {
 
 
 export const timeToMs = (time) => {
-  const times = time.split(':');
+  const isNegative = time.charAt(0) === '-';
+  const times = isNegative ? time.substr(1).split(':') : time.split(':');
   const hours =  Number(times[0]) * 60 * 60 * 1000;
   const minutes = Number(times[1]) * 60 * 1000 ; 
   const seconds = Number(times[2].split('.')[0]) * 1000
-  const ms = Number(times[2].split('.')[1]);
+  const mili = Number(times[2].split('.')[1]) * 10;
 
-  return hours + minutes + seconds + ms;
+  const sum = hours + minutes + seconds + mili;
+
+  return isNegative ? -sum : sum;
 }
