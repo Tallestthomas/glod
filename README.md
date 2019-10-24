@@ -1,40 +1,8 @@
-# Electron Create React Example
+# Glod - A cross platform Speedrun Timer
 
-This is an example electron/create-react-app application, and serves as an example of how to structure your project if you want to share pieces of your codebase between electron and react.
+This is an Electron/React based timer built for speedruns.
+Currently it only has a super basic functionality, but there are plenty of ideas already in the backlog.
 
-## Usage
+:warning: :warning: :warning: *THIS IS IN PRE-ALPHA* :warning: :warning: :warning:
 
-- Clone this repository
-- cd into the directory and run `npm install`
-- Delete git files `rm -rf .git`
-
-## Development
-
-- Run `npm start` to start the react development server
-- After that, run `npm run start-electron` in a different terminal to start the electron app
-
-## Build and package
-
-- Run `npm run package` to compile react, copy files and then package your app
-- A new `dist` folder will be created in the root of your project containing the executable files
-- NOTE: add `--mac` to the `postpackage` script besides `--win` if you are on a mac computer
-
-## Project structure
-
-- `electron/`: Code for the main Electron process
-- `src/react/`: Code for the React renderer process
-- `src/shared/`: Code shared between React and Electron
-- `package.json`: Contains scripts for running the app in development, building it, and packaging it for production using electron-builder
-
-## To do
-- Use Concurrently to run `npm start` and `npm run start-electron` both at once
-
-Open a new PR to contribute
-
-## Credits
-
-Original idea by [johndyer24](https://github.com/johndyer24)
-
-## License
-
-MIT
+So far this has only been compiled and tested on a MacOS environment, still need to test for stability and usability on both Linux and Windows.
