@@ -1,11 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
-import { timeFormat } from '../../utils';
+import {msToTime} from '../../utils';
 
 const Stopwatch = ({time}) => {
   return(
     <StopwatchContainer>
-      { timeFormat(time)}
+      {msToTime(time)}
     </StopwatchContainer>
   )
 }

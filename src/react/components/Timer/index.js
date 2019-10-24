@@ -5,7 +5,7 @@ import { Stopwatch, Controls, Splits } from '../';
 
 class Timer extends React.Component {
   state = {
-    time: 0,
+    time: -1500,
     currentSplit: 0,
     currentTimes: []
   };

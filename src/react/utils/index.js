@@ -1,1 +1,1 @@
-export { default as timeFormat } from './timeFormat';
+export { msToTime, timeToMs } from './timeFormat';

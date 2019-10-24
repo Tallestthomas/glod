@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { timeFormat } from '../../utils';
+import { msToTime } from '../../utils';
 import styled from 'styled-components';
 
 class Splits extends React.PureComponent {
@@ -11,7 +11,7 @@ class Splits extends React.PureComponent {
         {
           splits.map((split, index) => {
             const { name } = split || {};
-            const timeToRender = ( !currentTimes[index] || currentTimes[index] === 0) ? '-' : timeFormat(currentTimes[index]);
+            const timeToRender = ( !currentTimes[index] || currentTimes[index] === 0) ? '-' : msToTime(currentTimes[index]);
             return(
               <Split key={split.index} current={currentSplit === split.index}>
                 <SplitName>
