@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import {
-  startTimer,
-  stopTimer,
-  showControls
+  showControls,
 } from '../../actions/timerActions'
 const { remote } = window.require('electron');
 
@@ -51,22 +49,17 @@ class Controls extends React.PureComponent {
   }
 
   handlePause = () => {
-    const { dispatch, pause } = this.props;
-
-    dispatch(stopTimer());
+    const { pause } = this.props;
     pause();
   }
 
   handleStart = () => {
-    const { dispatch, start } = this.props;
-
-    dispatch(startTimer());
+    const { start } = this.props;
     start();
   }
 
   handleStop = () => {
-    const { dispatch, stop } = this.props;
-    dispatch(stopTimer());
+    const { stop } = this.props;
     stop();
   }
 
@@ -83,14 +76,14 @@ class Controls extends React.PureComponent {
   renderControls = () => {
     const { isRunning } = this.props;
     return ( <div className="controls">
-        { !isRunning 
-            ?  <button onClick={this.handleStart}>Start</button>
-            : <button onClick={this.handleStop}>Stop</button>
-        }
-        <button onClick={this.handlePause}>Pause</button>
-        <button>Previous</button>
-        <button>Next</button>
-      </div>
+      { !isRunning 
+          ?  <button onClick={this.handleStart}>Start</button>
+          : <button onClick={this.handleStop}>Stop</button>
+      }
+      <button onClick={this.handlePause}>Pause</button>
+      <button>Previous</button>
+      <button>Next</button>
+    </div>
     );
   }
 
@@ -106,9 +99,11 @@ class Controls extends React.PureComponent {
 }
 
 const mapStateToProps = ({timerReducer}) => {
-  const { isRunning, showControls } = timerReducer;
+  const { isRunning, isPaused, isComplete, showControls } = timerReducer;
   return {
     isRunning,
+    isPaused,
+    isComplete,
     showControls
   }
 }
