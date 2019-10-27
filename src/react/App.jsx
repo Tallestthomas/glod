@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import './App.css';
+import styled from 'styled-components';
 import { Timer } from './components';
 import configureStore from './store';
-import styled from 'styled-components';
+
 const { remote } = window.require('electron');
 
 class App extends Component {
   componentDidMount() {
     window.addEventListener('beforeunload', () => {
       remote.globalShortcut.unregisterAll();
-    })
+    });
 
     window.addEventListener('contextmenu', () => {
       /*
@@ -20,7 +21,7 @@ class App extends Component {
       console.log('right clicked');
     });
 
-    remote.getCurrentWindow().setBackgroundColor("#0000")
+    remote.getCurrentWindow().setBackgroundColor('#fff');
   }
 
   componentWillUnmount() {
@@ -44,4 +45,4 @@ export default App;
 
 const AppContainer = styled.div`
 background: transparent;
-`
+`;

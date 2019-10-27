@@ -56,3 +56,10 @@ export const completeRun = (time) => ({
 export const updateBestDurations = () => ({
   type: 'UPDATE_BEST_DURATIONS',
 });
+
+export const setPersonalBests = (time) => ({
+  type: 'SET_PERSONAL_BESTS',
+  payload: {
+    time,
+  },
+});

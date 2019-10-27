@@ -2,34 +2,30 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { msToTime } from '../../utils';
+import { msToTime, getPBComparison } from '../../utils';
 
 class Splits extends React.PureComponent {
-  componentDidUpdate() {
-    const { splits, comparisons } = this.props;
-
-    console.log(splits, comparisons);
-  }
-
   render() {
-    const { splits, currentSplit, comparisons } = this.props || {};
+    const { splits, currentSplit } = this.props || {};
     return (
       <SplitsContainer>
         {
-          splits.map((split, index) => {
-            const { name, endedAt, bestDuration } = split || {};
+          splits.map((split) => {
+            const { name, endedAt, personalBest } = split || {};
             const { realtimeMS } = endedAt || {};
-            const hasBestTime = bestDuration.realtimeMS > 0 ? msToTime(bestDuration.realtimeMS) : '-';
+            const hasBestTime = personalBest.realtimeMS > 0 ? msToTime(personalBest.realtimeMS) : '-';
             const timeToRender = realtimeMS > 0 ? msToTime(realtimeMS) : hasBestTime;
+            const comparison = getPBComparison(split);
+            const renderComparison = comparison > 0 ? `+${msToTime(comparison)}` : `${msToTime(comparison)}`;
 
             return (
               <Split key={split.index} current={currentSplit === split.index}>
                 <SplitName>
                   { name }
                 </SplitName>
-                <div>
-                  {(realtimeMS !== 0 && comparisons[index]) ? msToTime(comparisons[index]) : ''}
-                </div>
+                <SplitComparison comparison={comparison}>
+                  {realtimeMS !== 0 && comparison !== realtimeMS ? renderComparison : ''}
+                </SplitComparison>
                 <SplitTimes>
                   {timeToRender}
                 </SplitTimes>
@@ -58,7 +54,7 @@ width: 100%;
 
 const Split = styled.div`
 background-color: ${(props) => (props.current ? 'rgba(255,255,255, 0.2)' : '')};
-color: white;
+color: black;
 display: flex;
 flex-direction: row;
 padding: 0.5rem 1rem;
@@ -69,5 +65,10 @@ const SplitName = styled.div`
 `;
 
 const SplitTimes = styled.div`
+margin-left: 1rem;
+`;
+
+const SplitComparison = styled.div`
+color: ${(props) => (props.comparison <= 0 ? 'green' : 'red')};
 margin-left: auto;
 `;

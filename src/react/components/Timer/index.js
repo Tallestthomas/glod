@@ -6,13 +6,15 @@ import {
   setIsPaused,
   setIsRunning,
   setIsComplete,
-  updateBestDurations 
+  updateBestDurations,
+  setPersonalBests
 } from '../../actions/timerActions'
 import { Stopwatch, Controls, Splits } from '../';
 
 class Timer extends React.Component {
   state = {
     time: -1500,
+    prevTime: 0,
     currentSplit: 0,
   };
 
@@ -26,6 +28,7 @@ class Timer extends React.Component {
   };
 
   startTimer = () => {
+    const { prevTime } = this.state;
     const { dispatch, isPaused, isComplete } = this.props;
 
     if(isComplete) return;
@@ -33,6 +36,7 @@ class Timer extends React.Component {
     if(isPaused) {
       dispatch(setIsPaused(false))
     } else {
+      dispatch(setPersonalBests(prevTime));
       dispatch(startRun())
     }
     this.timerRef = setInterval( () => this.updateTimer(10), 10);
@@ -51,7 +55,7 @@ class Timer extends React.Component {
     dispatch(setIsRunning(false));
     dispatch(setIsComplete(false));
     clearInterval(this.timerRef); 
-    this.setState({ time: 0, currentSplit: 0 });
+    this.setState({ time: -1500, currentSplit: 0 });
   }
 
   splitTime = () => {
@@ -64,23 +68,19 @@ class Timer extends React.Component {
         this.setState({ currentSplit: currentSplit + 1 })
       } else {
         dispatch(setSplit(time, currentSplit))
-        this.setState({ currentSplit: 0 })
-        clearInterval(this.timerRef);
-        dispatch(setIsRunning(false));
-        dispatch(setIsComplete(true));
         dispatch(updateBestDurations());
+        clearInterval(this.timerRef);
+        this.setState({ currentSplit: 0, prevTime: time })
       }
     }
-
   }
 
   prevSplit = () => {
-    const { currentSplit, currentTimes } = this.state;
+    const { currentSplit } = this.state;
 
     if(currentSplit > 0)
       this.setState({
         currentSplit: currentSplit - 1,
-        currentTimes: currentTimes.slice(0, -1)
       });
   }
 
@@ -128,6 +128,7 @@ const mapStateToProps = ({ timerReducer }) => {
     isRunning,
     isComplete,
     isPaused,
+    splits,
     splitLength: splits.length
   }
 }

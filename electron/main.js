@@ -1,6 +1,7 @@
 const {
   app, BrowserWindow, ipcMain, globalShortcut,
 } = require('electron');
+const os = require('os');
 const isDev = require('electron-is-dev');
 const path = require('path');
 const { channels } = require('../src/shared/constants');
@@ -19,6 +20,15 @@ function createWindow() {
   });
 
   mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../index.html')}`);
+
+  if (isDev) {
+    BrowserWindow.addDevToolsExtension(
+      path.join(os.homedir(), '/Library/Application\ Support/Google/Chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.17.0_0'),
+    );
+    BrowserWindow.addDevToolsExtension(
+      path.join(os.homedir(), '/Library/Application\ Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.2.0_0'),
+    );
+  }
 
   mainWindow.on('closed', () => {
     mainWindow = null;

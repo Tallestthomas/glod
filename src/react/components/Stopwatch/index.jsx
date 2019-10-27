@@ -1,21 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
-import {msToTime} from '../../utils';
+import { msToTime } from '../../utils';
 
-const Stopwatch = ({time}) => {
-  return(
-    <StopwatchContainer>
-      {msToTime(time)}
-    </StopwatchContainer>
-  )
-}
+const Stopwatch = ({ time }) => (
+  <StopwatchContainer>
+    {msToTime(time)}
+  </StopwatchContainer>
+);
 
-export default Stopwatch
+export default Stopwatch;
 
 const StopwatchContainer = styled.div`
 text-align: right;
 padding: 1rem;
 font-size: 2rem;
 font-variant-numeric: tabular-nums lining-nums;
-color: white;
-`
+color: black;
+`;

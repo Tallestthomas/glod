@@ -1,10 +1,41 @@
-export const getDuration = (splitTime, prevTime) => splitTime - prevTime;
+export const getDuration = (splits, index) => {
+  const {
+    endedAt: {
+      realtimeMS: currentTime,
+    },
+  } = splits[index] || {};
 
-export const comparison = (split, prevTime = 0) => {
-  const { endedAt, bestDuration } = split || {};
-  const { realtimeMS: currentTime } = endedAt || {};
-  const { realtimeMS: bestTime } = bestDuration || {};
-  const currentDuration = getDuration(currentTime, prevTime);
+  if (index === 0) return currentTime;
 
-  return currentDuration - bestTime;
+  const {
+    endedAt: {
+      realtimeMS: prevTime,
+    },
+  } = splits[index - 1] || {};
+
+  return Math.abs(currentTime - prevTime);
+};
+
+export const getBestComparisons = (splits) => splits.map((split, index) => {
+  const currentDuration = getDuration(splits, index);
+  const {
+    bestDuration: {
+      realtimeMS: bestDuration,
+    },
+  } = split || {};
+
+  return currentDuration - bestDuration;
+});
+
+export const getPBComparison = (split) => {
+  const {
+    endedAt: {
+      realtimeMS: currentTime,
+    },
+    personalBest: {
+      realtimeMS: personalBestTime,
+    },
+  } = split || {};
+
+  return currentTime - personalBestTime;
 };
