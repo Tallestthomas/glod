@@ -1,7 +1,7 @@
 import {
   getDuration,
   getBestComparisons,
-  getPBComparisons,
+  getPBComparison,
 } from '..';
 
 describe('getDuration', () => {
@@ -57,32 +57,18 @@ describe('getBestComparison', () => {
 });
 
 describe('getPBComparisons', () => {
-  const splits = [
-    {
-      endedAt: {
-        realtimeMS: 2000,
-      },
-      personalBest: {
-        realtimeMS: 2200,
-      },
+  const split = {
+    endedAt: {
+      realtimeMS: 2000,
     },
-    {
-      endedAt: {
-        realtimeMS: 3000,
-      },
-      personalBest: {
-        realtimeMS: 2800,
-      },
+    personalBest: {
+      realtimeMS: 2200,
     },
-  ];
+  };
 
-  const comparisons = getPBComparisons(splits);
+  const comparison = getPBComparison(split);
 
-  it('should have a length of 2', () => {
-    expect(comparisons.length).toEqual(2);
-  });
-
-  it('should return [-200, 200]', () => {
-    expect(comparisons[0]).toEqual(-200);
+  it('should return -200', () => {
+    expect(comparison).toEqual(-200);
   });
 });

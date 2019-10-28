@@ -15,7 +15,7 @@
     "prepackage": "rescripts build",
     "package": "shx mkdir build/src && shx cp -r electron/. build/electron && shx cp -r src/shared/. build/src/shared",
     "postpackage": "electron-builder build --win --mac -c.extraMetadata.main=build/electron/main.js --publish never",
-    "test": "rescripts test",
+    "test": "rescripts test --env=jsdom",
     "eject": "rescripts eject"
   },
   "build": {

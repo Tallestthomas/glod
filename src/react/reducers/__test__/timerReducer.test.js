@@ -1,31 +1,59 @@
 import reducer from '../timerReducer';
-import {
-  START_TIMER,
-  STOP_TIMER
-} from '../../constants/timer';
+import * as constants from '../../constants/timer';
 
 
 describe('Timer Reducer', () => {
+  const initialState = {
+    isRunning: false,
+    isPaused: false,
+    isComplete: false,
+    showControls: true,
+    comparisons: [],
+    splits: [
+      {
+        index: 0,
+        name: 'Stasis',
+        endedAt: {
+          realtimeMS: 0,
+        },
+        bestDuration: {
+          realtimeMS: 0,
+        },
+        personalBest: {
+          realtimeMS: 0,
+        },
+      },
+      {
+        index: 1,
+        name: 'Cryonis',
+        endedAt: {
+          realtimeMS: 0,
+        },
+        bestDuration: {
+          realtimeMS: 0,
+        },
+        personalBest: {
+          realtimeMS: 0,
+        },
+      },
+    ],
+  };
+
   it('should return default state', () => {
-    expect(reducer(undefined, {})).toEqual({
-      isRunning: false,
-      splits: [
-        {
-          index: 0,
-          name: 'Stasis',
-          time: null,
-          best: null,
-        }
-      ]
-    });
+    expect(reducer(undefined, {})).toEqual(initialState);
   });
 
   it('should start timer', () => {
     const initialState = {
-      isRunning: false
+      isRunning: false,
     };
 
-    expect(reducer(initialState, { type: START_TIMER}))
+    expect(reducer(initialState, {
+      type: constants.SET_IS_RUNNING,
+      payload: {
+        isRunning: true,
+      },
+    }))
       .toEqual({
         isRunning: true,
       });
@@ -33,22 +61,27 @@ describe('Timer Reducer', () => {
 
   it('should stop timer', () => {
     const initialState = {
-      isRunning: true
+      isRunning: true,
     };
 
-    expect(reducer(initialState, { type: STOP_TIMER}))
+    expect(reducer(initialState, {
+      type: constants.SET_IS_RUNNING,
+      payload: {
+        isRunning: false,
+      },
+    }))
       .toEqual({
         isRunning: false,
       });
   });
 
-  it('should set split time' , () => {
+  it('should set split time', () => {
     const action = {
       type: 'SET_SPLIT',
       payload: {
         index: 0,
-        time: 2
-      }
+        time: 2,
+      },
     };
 
     const initialState = {
@@ -56,34 +89,38 @@ describe('Timer Reducer', () => {
         {
           index: 0,
           name: 'Stasis',
-          time: null,
-          best: null,
+          endedAt: {
+            realtimeMS: 0,
+          },
         },
         {
           index: 1,
           name: 'magnesis',
-          time: null,
-          best: null,
-        }
+          endedAt: {
+            realtimeMS: 0,
+          },
+        },
 
-      ]
-    }
+      ],
+    };
 
     expect(reducer(initialState, action)).toEqual({
       splits: [
         {
           index: 0,
           name: 'Stasis',
-          time: 2,
-          best: null,
+          endedAt: {
+            realtimeMS: 2,
+          },
         },
         {
           index: 1,
           name: 'magnesis',
-          time: null,
-          best: null,
-        }
-      ]
+          endedAt: {
+            realtimeMS: 0,
+          },
+        },
+      ],
     });
-  })
+  });
 });

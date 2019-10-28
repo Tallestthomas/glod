@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { Timer } from './components';
 import configureStore from './store';
 
-const { remote } = window.require('electron');
+const { remote } = window.require('electron') || {};
 
 class App extends Component {
   componentDidMount() {
