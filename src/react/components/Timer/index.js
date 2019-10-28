@@ -126,7 +126,6 @@ class Timer extends React.Component {
         />
         <TimeContainer>
           <PersonalBest splits={splits} />
-          <SumOfBest splits={splits} />
           <Stopwatch time={time} currentSplit={currentSplit} />
         </TimeContainer>
         <Controls 
