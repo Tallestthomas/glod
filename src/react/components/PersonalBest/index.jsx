@@ -3,9 +3,7 @@ import styled from 'styled-components';
 import { msToTime } from '../../utils';
 
 const PersonalBest = ({ splits }) => {
-  const personalBest = splits
-    .map((split) => split.personalBest.realtimeMS)
-    .reduce((a, b) => a + b, 0);
+  const personalBest = splits[splits.length - 1].personalBest.realtimeMS;
 
   return (
     <PersonalBestContainer>

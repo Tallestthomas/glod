@@ -20,28 +20,65 @@ const initialState = {
     {
       index: 0,
       name: 'Stasis',
-      endedAt: {
-        realtimeMS: 0,
-      },
-      bestDuration: {
-        realtimeMS: 0,
-      },
-      personalBest: {
-        realtimeMS: 0,
-      },
+      endedAt: { realtimeMS: 0 },
+      personalBest: { realtimeMS: 298592, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 161093, gametimeMS: 0 },
     },
     {
       index: 1,
       name: 'Cryonis',
-      endedAt: {
-        realtimeMS: 0,
-      },
-      bestDuration: {
-        realtimeMS: 0,
-      },
-      personalBest: {
-        realtimeMS: 0,
-      },
+      endedAt: { realtimeMS: 0 },
+      personalBest: { realtimeMS: 536978, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 212948, gametimeMS: 0 },
+    },
+    {
+      index: 2,
+      name: 'Magnesis',
+      endedAt: { realtimeMS: 0 },
+      personalBest: { realtimeMS: 717398, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 156688, gametimeMS: 0 },
+    },
+    {
+      index: 3,
+      name: 'Bombs',
+      endedAt: { realtimeMS: 0 },
+      personalBest: { realtimeMS: 954767, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 191630, gametimeMS: 0 },
+    },
+    {
+      index: 4,
+      name: 'WOOOOOOOSH',
+      endedAt: { realtimeMS: 0 },
+      personalBest: { realtimeMS: 1114644, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 132506, gametimeMS: 0 },
+    },
+    {
+      index: 5,
+      name: 'Castle',
+      endedAt: { realtimeMS: 0 },
+      personalBest: { realtimeMS: 1764366, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 468161, gametimeMS: 0 },
+    },
+    {
+      index: 6,
+      name: 'Blights',
+      endedAt: { realtimeMS: 0 },
+      personalBest: { realtimeMS: 2036294, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 264464, gametimeMS: 0 },
+    },
+    {
+      index: 7,
+      name: 'Calamity',
+      endedAt: { realtimeMS: 0 },
+      personalBest: { realtimeMS: 2243472, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 186625, gametimeMS: 0 },
+    },
+    {
+      index: 8,
+      name: 'BIGGY PIGGY',
+      endedAt: { realtimeMS: 0 },
+      personalBest: { realtimeMS: 2416311, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 168125, gametimeMS: 0 },
     },
   ],
 };
@@ -148,8 +185,7 @@ export default (state = initialState, { type, payload }) => {
       const { splits } = state || {};
       const { time } = payload || {};
 
-      const pbInMs = splits.map((split) => split.personalBest.realtimeMS)
-        .reduce((a, b) => a + b, 0);
+      const pbInMs = splits[splits.lekgth - 1].personalBest.realtimeMS;
 
       const newSplits = (time > pbInMs && pbInMs !== 0) ? splits
         : splits.map((split) => ({
