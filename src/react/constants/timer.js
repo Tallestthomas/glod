@@ -5,3 +5,5 @@ export const SHOW_CONTROLS = 'SHOW_CONTROLS';
 export const SET_SPLIT = 'SET_SPLIT';
 export const START_RUN = 'START_RUN';
 export const COMPLETE_RUN = 'COMPLETE_RUN';
+export const UPDATE_BEST_DURATIONS = 'UPDATE_BEST_DURATIONS';
+export const SET_PERSONAL_BESTS = 'SET_PERSONAL_BESTS';

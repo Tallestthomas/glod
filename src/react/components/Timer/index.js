@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
+
 import { 
   setSplit, 
   startRun, 
@@ -9,7 +11,13 @@ import {
   updateBestDurations,
   setPersonalBests
 } from '../../actions/timerActions'
-import { Stopwatch, Controls, Splits } from '../';
+import { 
+  Stopwatch, 
+  Controls, 
+  Splits, 
+  PersonalBest,
+  SumOfBest
+} from '../';
 
 class Timer extends React.Component {
   state = {
@@ -28,7 +36,6 @@ class Timer extends React.Component {
   };
 
   startTimer = () => {
-    const { prevTime } = this.state;
     const { dispatch, isPaused, isComplete } = this.props;
 
     if(isComplete) return;
@@ -36,7 +43,6 @@ class Timer extends React.Component {
     if(isPaused) {
       dispatch(setIsPaused(false))
     } else {
-      dispatch(setPersonalBests(prevTime));
       dispatch(startRun())
     }
     this.timerRef = setInterval( () => this.updateTimer(10), 10);
@@ -49,26 +55,36 @@ class Timer extends React.Component {
   }
 
   stopTimer = () => {
-    const { dispatch } = this.props;
+    const { prevTime } = this.state;
+    const { dispatch, isComplete } = this.props;
+
+    if(isComplete) {
+      dispatch(updateBestDurations());
+      dispatch(setPersonalBests(prevTime));
+    }
 
     dispatch(setIsPaused(false));
     dispatch(setIsRunning(false));
     dispatch(setIsComplete(false));
+
     clearInterval(this.timerRef); 
+
     this.setState({ time: -1500, currentSplit: 0 });
   }
 
   splitTime = () => {
-    const { isRunning, splitLength, dispatch} = this.props;
+    const { isRunning, splitLength, dispatch, isComplete} = this.props;
     const { currentSplit, time } = this.state;
 
-    if(isRunning){
+    if(isComplete) return;
+
+    if(isRunning && time > 0){
       if(currentSplit !== splitLength - 1) {
         dispatch(setSplit(time, currentSplit))
         this.setState({ currentSplit: currentSplit + 1 })
       } else {
         dispatch(setSplit(time, currentSplit))
-        dispatch(updateBestDurations());
+        dispatch(setIsComplete(true));
         clearInterval(this.timerRef);
         this.setState({ currentSplit: 0, prevTime: time })
       }
@@ -100,6 +116,7 @@ class Timer extends React.Component {
       currentSplit,
       currentTimes,
     } = this.state;
+    const { splits } = this.props;
 
     return (
       <div className="timer-container">
@@ -107,7 +124,11 @@ class Timer extends React.Component {
           currentTimes={currentTimes}
           currentSplit={currentSplit}
         />
-        <Stopwatch time={time} currentSplit={currentSplit} />
+        <TimeContainer>
+          <PersonalBest splits={splits} />
+          <SumOfBest splits={splits} />
+          <Stopwatch time={time} currentSplit={currentSplit} />
+        </TimeContainer>
         <Controls 
           currentSplit={currentSplit}
           next={this.nextSplit}
@@ -134,3 +155,7 @@ const mapStateToProps = ({ timerReducer }) => {
 }
 
 export default connect(mapStateToProps)(Timer);
+
+const TimeContainer = styled.div`
+padding-top: 2rem;
+`;

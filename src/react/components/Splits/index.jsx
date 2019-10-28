@@ -2,29 +2,34 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
-import { msToTime, getPBComparison } from '../../utils';
+import { msToTime, getPBComparison, getDuration } from '../../utils';
 
 class Splits extends React.PureComponent {
   render() {
-    const { splits, currentSplit } = this.props || {};
+    const { splits, currentSplit, isRunning } = this.props || {};
     return (
       <SplitsContainer>
         {
-          splits.map((split) => {
-            const { name, endedAt, personalBest } = split || {};
+          splits.map((split, index) => {
+            const {
+              name, endedAt, personalBest, bestDuration,
+            } = split || {};
             const { realtimeMS } = endedAt || {};
+            const { realtimeMS: bestTime } = bestDuration || {};
             const hasBestTime = personalBest.realtimeMS > 0 ? msToTime(personalBest.realtimeMS) : '-';
             const timeToRender = realtimeMS > 0 ? msToTime(realtimeMS) : hasBestTime;
             const comparison = getPBComparison(split);
             const renderComparison = comparison > 0 ? `+${msToTime(comparison)}` : `${msToTime(comparison)}`;
+            const splitDuration = getDuration(splits, index);
+            const isGold = bestTime > splitDuration;
 
             return (
               <Split key={split.index} current={currentSplit === split.index}>
                 <SplitName>
                   { name }
                 </SplitName>
-                <SplitComparison comparison={comparison}>
-                  {realtimeMS !== 0 && comparison !== realtimeMS ? renderComparison : ''}
+                <SplitComparison comparison={comparison} isGold={isGold}>
+                  {(realtimeMS !== 0 && comparison !== realtimeMS && isRunning) ? renderComparison : ''}
                 </SplitComparison>
                 <SplitTimes>
                   {timeToRender}
@@ -39,8 +44,9 @@ class Splits extends React.PureComponent {
 }
 
 const mapStateToProps = ({ timerReducer }) => {
-  const { splits, comparisons } = timerReducer;
+  const { splits, comparisons, isRunning } = timerReducer;
   return {
+    isRunning,
     splits,
     comparisons,
   };
@@ -69,6 +75,11 @@ margin-left: 1rem;
 `;
 
 const SplitComparison = styled.div`
-color: ${(props) => (props.comparison <= 0 ? 'green' : 'red')};
+color: ${(props) => {
+    const { isGold, comparison } = props;
+    if (isGold) return 'gold';
+
+    return comparison > 0 ? 'red' : 'green';
+  }}
 margin-left: auto;
 `;

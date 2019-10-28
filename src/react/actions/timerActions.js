@@ -6,6 +6,8 @@ import {
   SET_SPLIT,
   START_RUN,
   COMPLETE_RUN,
+  UPDATE_BEST_DURATIONS,
+  SET_PERSONAL_BESTS,
 } from '../constants/timer';
 
 export const setIsRunning = (isRunning) => ({
@@ -54,11 +56,11 @@ export const completeRun = (time) => ({
 });
 
 export const updateBestDurations = () => ({
-  type: 'UPDATE_BEST_DURATIONS',
+  type: UPDATE_BEST_DURATIONS,
 });
 
 export const setPersonalBests = (time) => ({
-  type: 'SET_PERSONAL_BESTS',
+  type: SET_PERSONAL_BESTS,
   payload: {
     time,
   },

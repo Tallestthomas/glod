@@ -5,6 +5,8 @@ import {
   SHOW_CONTROLS,
   SET_SPLIT,
   START_RUN,
+  UPDATE_BEST_DURATIONS,
+  SET_PERSONAL_BESTS,
 } from '../constants/timer';
 import { getDuration, getBestComparisons } from '../utils';
 
@@ -116,7 +118,7 @@ export default (state = initialState, { type, payload }) => {
       };
     }
 
-    case 'UPDATE_BEST_DURATIONS': {
+    case UPDATE_BEST_DURATIONS: {
       const { splits } = state;
 
       const comparisons = getBestComparisons(splits);
@@ -124,6 +126,7 @@ export default (state = initialState, { type, payload }) => {
       const newSplits = splits.map((split, index) => {
         const { bestDuration } = split || {};
         const { realtimeMS: currentBest } = bestDuration || {};
+
 
         return {
           ...split,
@@ -141,29 +144,26 @@ export default (state = initialState, { type, payload }) => {
       };
     }
 
-    case 'SET_PERSONAL_BESTS': {
+    case SET_PERSONAL_BESTS: {
       const { splits } = state || {};
       const { time } = payload || {};
 
       const pbInMs = splits.map((split) => split.personalBest.realtimeMS)
         .reduce((a, b) => a + b, 0);
 
-      if (time > pbInMs && pbInMs !== 0) return state;
-
-      const newSplits = splits.map((split) => ({
-        ...split,
-        personalBest: {
-          realtimeMS: split.endedAt.realtimeMS,
-        },
-      }));
+      const newSplits = (time > pbInMs && pbInMs !== 0) ? splits
+        : splits.map((split) => ({
+          ...split,
+          personalBest: {
+            realtimeMS: split.endedAt.realtimeMS,
+          },
+        }));
 
       return {
         ...state,
         splits: newSplits,
       };
     }
-
-
     default:
       return state;
   }
