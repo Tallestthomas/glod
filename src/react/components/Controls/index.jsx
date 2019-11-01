@@ -8,20 +8,20 @@ const { remote } = window.require('electron');
 class Controls extends React.PureComponent {
   componentDidMount() {
     const { isRunning } = this.props;
-    remote.globalShortcut.register('Cmd+g', () => {
+    remote.globalShortcut.register('Right', () => {
       if(!isRunning){
         this.handleStart()
       }
     })
-    remote.globalShortcut.register('Cmd+r', () => {
+    remote.globalShortcut.register('Left', () => {
       this.handleStop();
     })
 
-    remote.globalShortcut.register('Cmd+1', () => {
+    remote.globalShortcut.register('Up', () => {
       this.handlePrev();
     })
 
-    remote.globalShortcut.register('Cmd+2', () => {
+    remote.globalShortcut.register('Down', () => {
       this.handleNext();
     })
 
@@ -35,14 +35,14 @@ class Controls extends React.PureComponent {
   componentDidUpdate(){
     const { isRunning, split} = this.props;
     if(isRunning 
-      && remote.globalShortcut.isRegistered('Cmd+g')) {
-      remote.globalShortcut.unregister('Cmd+g')
-      remote.globalShortcut.register('Cmd+g', () => {
+      && remote.globalShortcut.isRegistered('Right')) {
+      remote.globalShortcut.unregister('Right')
+      remote.globalShortcut.register('Right', () => {
         split()
       })
     } else if(!isRunning) {
-      remote.globalShortcut.unregister('Cmd+g')
-      remote.globalShortcut.register('Cmd+g', () => {
+      remote.globalShortcut.unregister('Right')
+      remote.globalShortcut.register('Right', () => {
         this.handleStart()
       })
     }

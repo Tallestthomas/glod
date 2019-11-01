@@ -31,6 +31,8 @@ display: flex;
 flex-direction: row;
 padding: 0.5rem 1rem 0 1rem;
 font-variant-numeric: tabular-nums lining-nums;
+color: white;
+text-shadow: 1px 1px 1px #444;
 `;
 
 const SumOfBestDuration = styled.div`

@@ -16,16 +16,17 @@ export const getDuration = (splits, index) => {
   return Math.abs(currentTime - prevTime);
 };
 
-export const getBestComparisons = (splits) => splits.map((split, index) => {
+export const isBestDuration = (splits, index) => {
   const currentDuration = getDuration(splits, index);
+
   const {
     bestDuration: {
-      realtimeMS: bestDuration,
+      realtimeMS: currentBest,
     },
-  } = split || {};
+  } = splits[index];
 
-  return currentDuration - bestDuration;
-});
+  return currentDuration <= currentBest;
+};
 
 export const getPBComparison = (split) => {
   const {

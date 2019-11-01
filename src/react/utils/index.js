@@ -1,6 +1,6 @@
 export { msToTime, timeToMs } from './timeFormat';
 export {
-  getBestComparisons,
+  isBestDuration,
   getDuration,
   getPBComparison,
 } from './comparison';

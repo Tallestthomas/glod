@@ -8,7 +8,7 @@ import {
   UPDATE_BEST_DURATIONS,
   SET_PERSONAL_BESTS,
 } from '../constants/timer';
-import { getDuration, getBestComparisons } from '../utils';
+
 
 const initialState = {
   isRunning: false,
@@ -21,63 +21,63 @@ const initialState = {
       index: 0,
       name: 'Stasis',
       endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 298592, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 161093, gametimeMS: 0 },
+      personalBest: { realtimeMS: 306280, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 298592, gametimeMS: 0 },
     },
     {
       index: 1,
       name: 'Cryonis',
       endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 536978, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 212948, gametimeMS: 0 },
+      personalBest: { realtimeMS: 589430, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 283150, gametimeMS: 0 },
     },
     {
       index: 2,
       name: 'Magnesis',
       endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 717398, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 156688, gametimeMS: 0 },
+      personalBest: { realtimeMS: 860660, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 127968, gametimeMS: 0 },
     },
     {
       index: 3,
       name: 'Bombs',
       endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 954767, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 191630, gametimeMS: 0 },
+      personalBest: { realtimeMS: 1130890, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 94107, gametimeMS: 0 },
     },
     {
       index: 4,
       name: 'WOOOOOOOSH',
       endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 1114644, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 132506, gametimeMS: 0 },
+      personalBest: { realtimeMS: 1308770, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 177880, gametimeMS: 0 },
     },
     {
       index: 5,
       name: 'Castle',
       endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 1764366, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 468161, gametimeMS: 0 },
+      personalBest: { realtimeMS: 1761430, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 452659, gametimeMS: 0 },
     },
     {
       index: 6,
       name: 'Blights',
       endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 2036294, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 264464, gametimeMS: 0 },
+      personalBest: { realtimeMS: 2021030, gametimeMS: 0 },
+      bestDuration: { realtimeMS: 259600, gametimeMS: 0 },
     },
     {
       index: 7,
       name: 'Calamity',
       endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 2243472, gametimeMS: 0 },
+      personalBest: { realtimeMS: 2212370, gametimeMS: 0 },
       bestDuration: { realtimeMS: 186625, gametimeMS: 0 },
     },
     {
       index: 8,
       name: 'BIGGY PIGGY',
       endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 2416311, gametimeMS: 0 },
+      personalBest: { realtimeMS: 2385770, gametimeMS: 0 },
       bestDuration: { realtimeMS: 168125, gametimeMS: 0 },
     },
   ],
@@ -116,20 +116,7 @@ export default (state = initialState, { type, payload }) => {
       };
     }
     case SET_SPLIT: {
-      const { time, index } = payload || {};
-      const { splits } = state || {};
-
-      const newSplits = splits.map((split) => {
-        if (split.index === index) {
-          return {
-            ...split,
-            endedAt: {
-              realtimeMS: time,
-            },
-          };
-        }
-        return split;
-      });
+      const { newSplits } = payload || {};
 
       return {
         ...state,
@@ -145,6 +132,7 @@ export default (state = initialState, { type, payload }) => {
           realtimeMS: 0,
         },
       }));
+
       return {
         ...state,
         isRunning: true,
@@ -156,28 +144,8 @@ export default (state = initialState, { type, payload }) => {
     }
 
     case UPDATE_BEST_DURATIONS: {
-      const { splits } = state;
-
-      const comparisons = getBestComparisons(splits);
-
-      const newSplits = splits.map((split, index) => {
-        const { bestDuration } = split || {};
-        const { realtimeMS: currentBest } = bestDuration || {};
-
-
-        return {
-          ...split,
-          bestDuration: {
-            realtimeMS: (comparisons[index] < currentBest || currentBest === 0)
-              ? getDuration(splits, index)
-              : currentBest,
-          },
-        };
-      });
-
       return {
         ...state,
-        splits: newSplits,
       };
     }
 
@@ -185,7 +153,7 @@ export default (state = initialState, { type, payload }) => {
       const { splits } = state || {};
       const { time } = payload || {};
 
-      const pbInMs = splits[splits.lekgth - 1].personalBest.realtimeMS;
+      const pbInMs = splits[splits.length - 1].personalBest.realtimeMS;
 
       const newSplits = (time > pbInMs && pbInMs !== 0) ? splits
         : splits.map((split) => ({
@@ -198,6 +166,14 @@ export default (state = initialState, { type, payload }) => {
       return {
         ...state,
         splits: newSplits,
+      };
+    }
+    case 'UPDATE_SPLITS': {
+      const { splits } = payload || {};
+
+      return {
+        ...state,
+        splits,
       };
     }
     default:

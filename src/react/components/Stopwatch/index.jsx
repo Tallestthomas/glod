@@ -14,6 +14,8 @@ const StopwatchContainer = styled.div`
 text-align: right;
 padding: 1rem;
 font-size: 2rem;
+font-weight: bold;
 font-variant-numeric: tabular-nums lining-nums;
-color: black;
+color: white;
+text-shadow: 1px 1px 1px #000;
 `;

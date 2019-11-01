@@ -13,19 +13,10 @@ class App extends Component {
       remote.globalShortcut.unregisterAll();
     });
 
-    window.addEventListener('contextmenu', () => {
-      /*
-       * @TODO
-       * Figure out menu logic for toggling, perhaps look into preferences menu
-       */
-      console.log('right clicked');
-    });
-
-    remote.getCurrentWindow().setBackgroundColor('#fff');
+    remote.getCurrentWindow().setBackgroundColor('#0000');
   }
 
   componentWillUnmount() {
-    window.removeEventListener('contextmenu');
     window.removeEventListener('beforeunload');
   }
 

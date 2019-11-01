@@ -3,44 +3,44 @@ import * as constants from '../../constants/timer';
 
 
 describe('Timer Reducer', () => {
-  const initialState = {
-    isRunning: false,
-    isPaused: false,
-    isComplete: false,
-    showControls: true,
-    comparisons: [],
-    splits: [
-      {
-        index: 0,
-        name: 'Stasis',
-        endedAt: {
-          realtimeMS: 0,
-        },
-        bestDuration: {
-          realtimeMS: 0,
-        },
-        personalBest: {
-          realtimeMS: 0,
-        },
-      },
-      {
-        index: 1,
-        name: 'Cryonis',
-        endedAt: {
-          realtimeMS: 0,
-        },
-        bestDuration: {
-          realtimeMS: 0,
-        },
-        personalBest: {
-          realtimeMS: 0,
-        },
-      },
-    ],
-  };
-
   it('should return default state', () => {
-    expect(reducer(undefined, {})).toEqual(initialState);
+    const initialState = {
+      isRunning: false,
+      isPaused: false,
+      isComplete: false,
+      showControls: true,
+      comparisons: [],
+      splits: [
+        {
+          index: 0,
+          name: 'Stasis',
+          endedAt: {
+            realtimeMS: 0,
+          },
+          bestDuration: {
+            realtimeMS: 0,
+          },
+          personalBest: {
+            realtimeMS: 0,
+          },
+        },
+        {
+          index: 1,
+          name: 'Cryonis',
+          endedAt: {
+            realtimeMS: 0,
+          },
+          bestDuration: {
+            realtimeMS: 0,
+          },
+          personalBest: {
+            realtimeMS: 0,
+          },
+        },
+      ],
+    };
+
+    expect(reducer(initialState, {})).toEqual(initialState);
   });
 
   it('should start timer', () => {
@@ -80,7 +80,15 @@ describe('Timer Reducer', () => {
       type: 'SET_SPLIT',
       payload: {
         index: 0,
-        time: 2,
+        newSplits: [
+          {
+            index: 0,
+            name: 'Stasis',
+            endedAt: {
+              realtimeMS: 2,
+            },
+          },
+        ],
       },
     };
 
@@ -93,18 +101,10 @@ describe('Timer Reducer', () => {
             realtimeMS: 0,
           },
         },
-        {
-          index: 1,
-          name: 'magnesis',
-          endedAt: {
-            realtimeMS: 0,
-          },
-        },
-
       ],
     };
 
-    expect(reducer(initialState, action)).toEqual({
+    const expectedState = {
       splits: [
         {
           index: 0,
@@ -113,14 +113,9 @@ describe('Timer Reducer', () => {
             realtimeMS: 2,
           },
         },
-        {
-          index: 1,
-          name: 'magnesis',
-          endedAt: {
-            realtimeMS: 0,
-          },
-        },
       ],
-    });
+    };
+
+    expect(reducer(initialState, action)).toEqual(expectedState);
   });
 });

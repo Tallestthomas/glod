@@ -8,7 +8,6 @@ import {
   setIsPaused,
   setIsRunning,
   setIsComplete,
-  updateBestDurations,
   setPersonalBests
 } from '../../actions/timerActions'
 import { 
@@ -19,7 +18,7 @@ import {
   SumOfBest
 } from '../';
 
-class Timer extends React.Component {
+class TimerComponent extends React.Component {
   state = {
     time: -1500,
     prevTime: 0,
@@ -59,7 +58,6 @@ class Timer extends React.Component {
     const { dispatch, isComplete } = this.props;
 
     if(isComplete) {
-      dispatch(updateBestDurations());
       dispatch(setPersonalBests(prevTime));
     }
 
@@ -138,7 +136,7 @@ class Timer extends React.Component {
           start={this.startTimer}
           stop={this.stopTimer}
         />
-      </div>
+    </div>
     )
   }
 }
@@ -154,7 +152,8 @@ const mapStateToProps = ({ timerReducer }) => {
   }
 }
 
-export default connect(mapStateToProps)(Timer);
+const Timer = connect(mapStateToProps)(TimerComponent);
+export default Timer; 
 
 const TimeContainer = styled.div`
 padding-top: 2rem;
