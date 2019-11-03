@@ -1,9 +1,13 @@
 const {
-  app, BrowserWindow, ipcMain, globalShortcut,
+  app,
+  BrowserWindow,
+  ipcMain,
+  globalShortcut,
 } = require('electron');
 const os = require('os');
 const isDev = require('electron-is-dev');
 const path = require('path');
+
 const { channels } = require('../src/shared/constants');
 
 let mainWindow;

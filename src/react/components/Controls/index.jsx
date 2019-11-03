@@ -30,6 +30,7 @@ class Controls extends React.PureComponent {
 
       dispatch(showControls())
     })
+
   }
 
   componentDidUpdate(){

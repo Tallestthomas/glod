@@ -11,12 +11,18 @@ import {
   setPersonalBests
 } from '../../actions/timerActions'
 import { 
+  initApplication
+} from '../../actions'
+import { 
   Stopwatch, 
   Controls, 
   Splits, 
   PersonalBest,
   SumOfBest
 } from '../';
+import {
+  saveSplitFile
+} from '../../utils'
 
 class TimerComponent extends React.Component {
   state = {
@@ -26,6 +32,12 @@ class TimerComponent extends React.Component {
   };
 
   timerRef = null;
+
+  componentDidMount() {
+    const { dispatch } = this.props;
+
+    dispatch(initApplication());
+  }
 
   updateTimer = (increment) => { 
     const { time } = this.state;
@@ -55,7 +67,7 @@ class TimerComponent extends React.Component {
 
   stopTimer = () => {
     const { prevTime } = this.state;
-    const { dispatch, isComplete } = this.props;
+    const { dispatch, isComplete, splits } = this.props;
 
     if(isComplete) {
       dispatch(setPersonalBests(prevTime));
@@ -64,6 +76,8 @@ class TimerComponent extends React.Component {
     dispatch(setIsPaused(false));
     dispatch(setIsRunning(false));
     dispatch(setIsComplete(false));
+
+    saveSplitFile(splits)
 
     clearInterval(this.timerRef); 
 

@@ -4,3 +4,4 @@ export { default as Controls } from './Controls';
 export { default as Splits } from './Splits';
 export { default as PersonalBest } from './PersonalBest';
 export { default as SumOfBest } from './SumOfBest';
+export { default as SplitsMenu } from './Menu/SplitsMenu';

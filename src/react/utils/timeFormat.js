@@ -27,12 +27,32 @@ export const msToTime = (miliseconds) => {
 export const timeToMs = (time) => {
   const isNegative = time.charAt(0) === '-';
   const times = isNegative ? time.substr(1).split(':') : time.split(':');
-  const hours = Number(times[0]) * 60 * 60 * 1000;
-  const minutes = Number(times[1]) * 60 * 1000;
-  const seconds = Number(times[2].split('.')[0]) * 1000;
-  const mili = Number(times[2].split('.')[1]) * 10;
 
-  const sum = hours + minutes + seconds + mili;
+  let hours = 0;
+  let minutes = 0;
+  let seconds = 0;
+  let milli = 0;
+
+  if (times.length === 3) {
+    hours = Number(times[0]) * 60 * 60 * 1000;
+    minutes = Number(times[1]) * 60 * 1000;
+  }
+
+  if (times.length === 2) {
+    minutes = Number(times[0]) * 60 * 1000;
+  }
+
+  const hasMs = times[times.length - 1].includes('.');
+  if (hasMs) {
+    seconds = Number(times[times.length - 1].split('.')[0]) * 1000;
+    milli = Number(times[times.length - 1].split('.')[1]);
+  } else {
+    seconds = Number(times[times.length - 1] * 1000);
+  }
+
+  const ms = milli * (milli.length > 1 ? 10 : 100);
+
+  const sum = hours + minutes + seconds + ms;
 
   return isNegative ? -sum : sum;
 };

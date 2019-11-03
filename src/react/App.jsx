@@ -1,19 +1,51 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import './App.css';
 import styled from 'styled-components';
-import { Timer } from './components';
+import { Router, Route } from 'react-router-dom';
+import history from './utils/history';
+
+import { Timer, SplitsMenu } from './components';
 import configureStore from './store';
 
 const { remote } = window.require('electron') || {};
+const {
+  Menu,
+  globalShortcut,
+  getCurrentWindow,
+} = remote || {};
 
 class App extends Component {
   componentDidMount() {
     window.addEventListener('beforeunload', () => {
-      remote.globalShortcut.unregisterAll();
+      globalShortcut.unregisterAll();
     });
 
-    remote.getCurrentWindow().setBackgroundColor('#0000');
+    getCurrentWindow().setBackgroundColor('#0000');
+
+    const template = [
+      {
+        label: 'Preferences',
+        submenu: [
+          {
+            label: 'Edit Splits',
+            click: () => {
+              history.push('/splits');
+            },
+          },
+        ],
+      },
+      {
+        label: 'Help',
+        submenu: [
+          { role: 'toggleDevTools' },
+          { role: 'reload' },
+        ],
+      },
+    ];
+
+    const menu = Menu.buildFromTemplate(template);
+
+    Menu.setApplicationMenu(menu);
   }
 
   componentWillUnmount() {
@@ -24,8 +56,10 @@ class App extends Component {
     return (
       <Provider store={configureStore()}>
         <AppContainer>
-          { /* Menu */ }
-          <Timer />
+          <Router history={history}>
+            <Route exact path="/" component={Timer} />
+            <Route exact path="/splits" component={SplitsMenu} />
+          </Router>
         </AppContainer>
       </Provider>
     );

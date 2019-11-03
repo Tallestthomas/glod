@@ -8,7 +8,7 @@ import {
   UPDATE_BEST_DURATIONS,
   SET_PERSONAL_BESTS,
 } from '../constants/timer';
-
+import { openSplitFile } from '../utils';
 
 const initialState = {
   isRunning: false,
@@ -16,71 +16,7 @@ const initialState = {
   isComplete: false,
   showControls: true,
   comparisons: [],
-  splits: [
-    {
-      index: 0,
-      name: 'Stasis',
-      endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 306280, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 298592, gametimeMS: 0 },
-    },
-    {
-      index: 1,
-      name: 'Cryonis',
-      endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 589430, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 283150, gametimeMS: 0 },
-    },
-    {
-      index: 2,
-      name: 'Magnesis',
-      endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 860660, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 127968, gametimeMS: 0 },
-    },
-    {
-      index: 3,
-      name: 'Bombs',
-      endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 1130890, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 94107, gametimeMS: 0 },
-    },
-    {
-      index: 4,
-      name: 'WOOOOOOOSH',
-      endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 1308770, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 177880, gametimeMS: 0 },
-    },
-    {
-      index: 5,
-      name: 'Castle',
-      endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 1761430, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 452659, gametimeMS: 0 },
-    },
-    {
-      index: 6,
-      name: 'Blights',
-      endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 2021030, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 259600, gametimeMS: 0 },
-    },
-    {
-      index: 7,
-      name: 'Calamity',
-      endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 2212370, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 186625, gametimeMS: 0 },
-    },
-    {
-      index: 8,
-      name: 'BIGGY PIGGY',
-      endedAt: { realtimeMS: 0 },
-      personalBest: { realtimeMS: 2385770, gametimeMS: 0 },
-      bestDuration: { realtimeMS: 168125, gametimeMS: 0 },
-    },
-  ],
+  splits: openSplitFile().splits,
 };
 
 export default (state = initialState, { type, payload }) => {
