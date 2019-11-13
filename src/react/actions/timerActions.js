@@ -30,7 +30,7 @@ export const setIsComplete = (isComplete) => ({
   },
 });
 
-export const showControls = () => ({
+export const toggleShowControls = () => ({
   type: SHOW_CONTROLS,
 });
 

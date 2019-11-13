@@ -1,51 +1,54 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import styled from 'styled-components';
 import {
-  showControls,
-} from '../../actions/timerActions'
+  toggleShowControls,
+} from '../../actions/timerActions';
+import Button from '../../styles/Button';
+
 const { remote } = window.require('electron');
 
 class Controls extends React.PureComponent {
   componentDidMount() {
-    const { isRunning } = this.props;
+    const { isRunning, isPaused } = this.props;
     remote.globalShortcut.register('Right', () => {
-      if(!isRunning){
-        this.handleStart()
+      if (!isRunning || isPaused) {
+        this.handleStart();
       }
-    })
+    });
     remote.globalShortcut.register('Left', () => {
       this.handleStop();
-    })
+    });
 
     remote.globalShortcut.register('Up', () => {
       this.handlePrev();
-    })
+    });
 
     remote.globalShortcut.register('Down', () => {
       this.handleNext();
-    })
+    });
 
     remote.globalShortcut.register('Cmd+h', () => {
       const { dispatch } = this.props;
 
-      dispatch(showControls())
-    })
-
+      dispatch(toggleShowControls());
+    });
   }
 
-  componentDidUpdate(){
-    const { isRunning, split} = this.props;
-    if(isRunning 
+  componentDidUpdate() {
+    const { isRunning, isPaused, split } = this.props;
+
+    if (isRunning && !isPaused
       && remote.globalShortcut.isRegistered('Right')) {
-      remote.globalShortcut.unregister('Right')
+      remote.globalShortcut.unregister('Right');
       remote.globalShortcut.register('Right', () => {
-        split()
-      })
-    } else if(!isRunning) {
-      remote.globalShortcut.unregister('Right')
+        split();
+      });
+    } else if (!isRunning || isPaused) {
+      remote.globalShortcut.unregister('Right');
       remote.globalShortcut.register('Right', () => {
-        this.handleStart()
-      })
+        this.handleStart();
+      });
     }
   }
 
@@ -75,22 +78,22 @@ class Controls extends React.PureComponent {
   }
 
   renderControls = () => {
-    const { isRunning } = this.props;
-    return ( <div className="controls">
-      { !isRunning 
-          ?  <button onClick={this.handleStart}>Start</button>
-          : <button onClick={this.handleStop}>Stop</button>
-      }
-      <button onClick={this.handlePause}>Pause</button>
-      <button>Previous</button>
-      <button>Next</button>
-    </div>
+    const { isRunning, isPaused } = this.props;
+    return (
+      <ControlsContainer>
+        { !isRunning || isPaused
+          ? <Button onClick={this.handleStart}>Start</Button>
+          : <Button onClick={this.handleStop}>Stop</Button>}
+        <Button onClick={this.handlePause}>Pause</Button>
+        <Button>Previous</Button>
+        <Button>Next</Button>
+      </ControlsContainer>
     );
   }
 
-  render(){
-    const { 
-      showControls
+  render() {
+    const {
+      showControls,
     } = this.props || {};
 
     return (
@@ -99,14 +102,24 @@ class Controls extends React.PureComponent {
   }
 }
 
-const mapStateToProps = ({timerReducer}) => {
-  const { isRunning, isPaused, isComplete, showControls } = timerReducer;
+const mapStateToProps = ({ timerReducer }) => {
+  const {
+    isRunning,
+    isPaused,
+    isComplete,
+    showControls,
+  } = timerReducer;
   return {
     isRunning,
     isPaused,
     isComplete,
-    showControls
-  }
-}
+    showControls,
+  };
+};
 
 export default connect(mapStateToProps)(Controls);
+
+const ControlsContainer = styled.div`
+display: flex;
+padding: 1rem 0.5rem;
+`;

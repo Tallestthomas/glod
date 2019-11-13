@@ -14,6 +14,9 @@ import {
   initApplication,
 } from '../../actions';
 import {
+  saveSplitFile,
+} from '../../utils';
+import {
   Stopwatch,
   Controls,
   Splits,
@@ -74,7 +77,7 @@ class TimerComponent extends React.Component {
     dispatch(setIsRunning(false));
     dispatch(setIsComplete(false));
 
-    // saveSplitFile(splits)
+    saveSplitFile(splits);
 
     clearInterval(this.timerRef);
 
@@ -83,7 +86,10 @@ class TimerComponent extends React.Component {
 
   splitTime = () => {
     const {
-      isRunning, splitLength, dispatch, isComplete,
+      isRunning,
+      splitLength,
+      dispatch,
+      isComplete,
     } = this.props;
     const { currentSplit, time } = this.state;
 

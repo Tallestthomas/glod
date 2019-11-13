@@ -19,11 +19,14 @@ export const getDuration = (splits, index) => {
 export const isBestDuration = (splits, index) => {
   const currentDuration = getDuration(splits, index);
 
+
   const {
     bestDuration: {
       realtimeMS: currentBest,
     },
   } = splits[index];
+
+  if (currentBest === 0) return true;
 
   return currentDuration <= currentBest;
 };

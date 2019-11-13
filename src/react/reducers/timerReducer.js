@@ -5,7 +5,6 @@ import {
   SHOW_CONTROLS,
   SET_SPLIT,
   START_RUN,
-  UPDATE_BEST_DURATIONS,
   SET_PERSONAL_BESTS,
 } from '../constants/timer';
 import { openSplitFile } from '../utils';
@@ -76,12 +75,6 @@ export default (state = initialState, { type, payload }) => {
         isComplete: false,
         comparisons: [],
         splits: resetSplits,
-      };
-    }
-
-    case UPDATE_BEST_DURATIONS: {
-      return {
-        ...state,
       };
     }
 

@@ -11,6 +11,7 @@ margin: 0.5rem 0.25rem;
 flex: 1;
 border-radius: 10px;
 transition: color 0.25s ease-in-out, background 0.25s ease-in-out;
+font-family: inherit;
 
 &:hover {
   color: #333;
