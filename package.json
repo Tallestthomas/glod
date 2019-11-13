@@ -31,6 +31,7 @@
   },
   "eslintConfig": {
     "extends": "airbnb",
+    "parser": "babel-eslint",
     "rules": {
       "import/no-extraneous-dependencies": "off"
     }
@@ -46,21 +47,21 @@
     "@rescripts/rescript-env": "0.0.11",
     "concurrently": "^5.0.0",
     "cross-env": "^6.0.3",
-    "electron": "^7.0.0",
+    "electron": "^7.0.1",
     "electron-builder": "^21.2.0",
     "electron-devtools-installer": "^2.2.4",
     "electron-store": "^5.1.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
-    "eslint": "^6.1.0",
+    "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "history": "^4.10.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
     "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
@@ -70,7 +71,7 @@
     "redux-mock-store": "^1.5.3",
     "redux-thunk": "^2.3.0",
     "shx": "^0.3.2",
-    "styled-components": "^4.4.0",
+    "styled-components": "^4.4.1",
     "wait-on": "^3.3.0"
   }
 }

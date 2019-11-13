@@ -11,7 +11,6 @@ const { remote } = window.require('electron') || {};
 const {
   Menu,
   globalShortcut,
-  getCurrentWindow,
 } = remote || {};
 
 class App extends Component {
@@ -20,7 +19,7 @@ class App extends Component {
       globalShortcut.unregisterAll();
     });
 
-    getCurrentWindow().setBackgroundColor('#0000');
+    // getCurrentWindow().setBackgroundColor('#0000');
 
     const template = [
       {
@@ -68,6 +67,10 @@ class App extends Component {
 
 export default App;
 
+
 const AppContainer = styled.div`
-background: transparent;
+font-family: Verdana, sans-serif;
+font-weight: bold;
+background: #344e5c;
+height: 100vh;
 `;

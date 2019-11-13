@@ -62,7 +62,6 @@ export const updateSplits = (splits) => ({
 export const updateBestDuration = (splits, index) => (dispatch) => {
   const newSplits = splits.map((split) => {
     if (split.index === index) {
-      const { endedAt } = split || {};
       return {
         ...split,
         bestDuration: {

@@ -83,9 +83,9 @@ margin-left: 1rem;
 const SplitComparison = styled.div`
 color: ${(props) => {
     const { isGold, comparison } = props;
-    if (isGold) return 'yellow';
+    if (isGold) return '#EFC958';
 
-    return comparison > 0 ? 'red' : 'lime';
+    return comparison > 0 ? '#EF3D59' : '#4AB19D';
   }}
 margin-left: auto;
 text-shadow: 1px 1px 1px #333;

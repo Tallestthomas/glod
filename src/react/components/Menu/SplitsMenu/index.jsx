@@ -1,19 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from '../../../styles/Button';
 import {
   openSplitFile,
   saveSplitFile,
   msToTime,
   timeToMs,
-  history
-} from '../../../utils'
+  history,
+} from '../../../utils';
 
 class SplitsMenu extends React.Component {
   state = {
-    splits: []
+    splits: [],
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.loadSplits();
   }
 
@@ -22,7 +23,7 @@ class SplitsMenu extends React.Component {
     this.setState({ splits });
   }
 
-  editName = index => ( event ) => {
+  editName = (index) => (event) => {
     const { splits } = this.state;
 
     const { target } = event;
@@ -30,19 +31,19 @@ class SplitsMenu extends React.Component {
 
     const newSplit = {
       ...splits[index],
-      name: value
-    }
+      name: value,
+    };
 
     this.setState({
       splits: [
         ...splits.slice(0, index),
         newSplit,
-        ...splits.slice(index + 1)
-      ]
-    })
+        ...splits.slice(index + 1),
+      ],
+    });
   }
 
-  editTime = index => event => {
+  editTime = (index) => (event) => {
     const { splits } = this.state;
 
     const { target } = event;
@@ -51,17 +52,105 @@ class SplitsMenu extends React.Component {
     const newSplit = {
       ...splits[index],
       [name]: {
-        realtimeMS: timeToMs(value)
-      }
-    }
+        realtimeMS: timeToMs(value),
+      },
+    };
 
     this.setState({
       splits: [
         ...splits.slice(0, index),
         newSplit,
-        ...splits.slice(index + 1)
-      ]
+        ...splits.slice(index + 1),
+      ],
     });
+  }
+
+  removeSegment = (index) => {
+    const { splits } = this.state;
+
+    const newSplits = splits.filter((_, splitIndex) => splitIndex !== index);
+
+    this.setState({ splits: newSplits });
+  }
+
+  addSegmentAbove = (index) => {
+    const { splits } = this.state;
+
+    const newSplit = {
+      name: '',
+      endedAt: {
+        realtimeMS: 0,
+      },
+      bestDuration: {
+        realtimeMS: 0,
+      },
+      personalBest: {
+        realtimeMS: 0,
+      },
+    };
+
+    const newSplits = [
+      ...splits.slice(0, index),
+      newSplit,
+      ...splits.slice(index),
+    ];
+
+    this.setState({ splits: newSplits });
+  }
+
+  addSegmentBelow = (index) => {
+    const { splits } = this.state;
+
+    const newSplit = {
+      name: '',
+      endedAt: {
+        realtimeMS: 0,
+      },
+      bestDuration: {
+        realtimeMS: 0,
+      },
+      personalBest: {
+        realtimeMS: 0,
+      },
+    };
+
+    const newSplits = [
+      ...splits.slice(0, index + 1),
+      newSplit,
+      ...splits.slice(index + 1),
+    ];
+
+    this.setState({ splits: newSplits });
+  }
+
+  moveSegmentUp = (index) => {
+    const { splits } = this.state;
+    const segment = splits[index];
+
+    const filteredSplits = splits.filter((_, splitIndex) => splitIndex !== index);
+
+    const newSplits = [
+      ...filteredSplits.slice(0, index - 1),
+      segment,
+      ...filteredSplits.slice(index - 1),
+    ];
+
+    this.setState({ splits: newSplits });
+  }
+
+  moveSegmentDown = (index) => {
+    const { splits } = this.state;
+    const segment = splits[index];
+
+    const filteredSplits = splits.filter((_, splitIndex) => splitIndex !== index);
+
+    const newSplits = [
+      ...filteredSplits.slice(0, index + 1),
+      segment,
+      ...filteredSplits.slice(index + 1),
+    ];
+
+    this.setState({ splits: newSplits });
   }
 
   saveSplits = () => {
@@ -74,58 +163,64 @@ class SplitsMenu extends React.Component {
   render() {
     const { splits } = this.state;
 
-    return(
+    return (
       <SplitsMenuContainer>
-        {splits.map(split => {
-          const { 
+        {splits.map((split, index) => {
+          const {
             name,
-            index,
             endedAt: {
-              realtimeMS: endedAt, 
+              realtimeMS: endedAt,
             },
             personalBest: {
-              realtimeMS: personalBestTime
+              realtimeMS: personalBestTime,
             },
             bestDuration: {
-              realtimeMS: bestDuration
-            }
+              realtimeMS: bestDuration,
+            },
           } = split || {};
 
           return (
-            <SplitContainer key={index}>
+            <SplitContainer key={name}>
               <InputContainer>
-                Name: 
+                Name:
                 <input defaultValue={name} name="name" onBlur={this.editName(index)} />
               </InputContainer>
               <InputContainer>
-                Split Time: 
-                <input 
-                  defaultValue={msToTime(endedAt)} 
+                Split Time:
+                <input
+                  defaultValue={msToTime(endedAt)}
                   name="endedAt"
                   onBlur={this.editTime(index)}
                 />
               </InputContainer>
               <InputContainer>
-                Personal Best:
-                <input 
-                  defaultValue={msToTime(personalBestTime)} 
+            Personal Best:
+                <input
+                  defaultValue={msToTime(personalBestTime)}
                   name="personalBest"
                   onBlur={this.editTime(index)}
                 />
               </InputContainer>
               <InputContainer>
-                Best Duration:
-                <input 
-                  defaultValue={msToTime(bestDuration)} 
+            Best Duration:
+                <input
+                  defaultValue={msToTime(bestDuration)}
                   name="bestDuration"
                   onBlur={this.editTime(index)}
                 />
               </InputContainer>
+              <SplitControlsContainer>
+                <Button type="button" onClick={() => this.removeSegment(index)}>Remove</Button>
+                <Button type="button" onClick={() => this.moveSegmentUp(index)}>Move Up</Button>
+                <Button type="button" onClick={() => this.moveSegmentDown(index)}>Move Down</Button>
+                <Button type="button" onClick={() => this.addSegmentAbove(index)}>Insert Above</Button>
+                <Button type="button" onClick={() => this.addSegmentBelow(index)}>Insert Below</Button>
+              </SplitControlsContainer>
             </SplitContainer>
           );
         })}
-        <button onClick={() => history.push('/')}>Cancel</button>
-        <button onClick={() => this.saveSplits()}>Save</button>
+        <Button onClick={() => history.push('/')} type="button">Cancel</Button>
+        <Button onClick={() => this.saveSplits()} type="button">Save</Button>
       </SplitsMenuContainer>
     );
   }
@@ -134,7 +229,7 @@ class SplitsMenu extends React.Component {
 export default SplitsMenu;
 
 const SplitsMenuContainer = styled.div`
-background-color: black;
+background: inherit;
 `;
 
 const SplitContainer = styled.div`
@@ -144,9 +239,17 @@ margin-bottom: 0.5rem;
 `;
 
 const InputContainer = styled.label`
-display: block;
+display: flex;
+justify-content: space-between;
+align-items: center;
 color: white;
 input {
 margin: 0.5rem;
+width: 50%;
 }
+`;
+
+const SplitControlsContainer = styled.div`
+display: flex;
+justify-content: space-between;
 `;
