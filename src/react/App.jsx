@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import styled from 'styled-components';
-import { Router, Route } from 'react-router-dom';
-import history from './utils/history';
 
-import { Timer, SplitsMenu } from './components';
+import ViewManager from './components/ViewManager';
 import configureStore from './store';
 
 const { remote } = window.require('electron') || {};
@@ -14,6 +12,8 @@ const {
 } = remote || {};
 
 class App extends Component {
+  menu = null
+
   componentDidMount() {
     window.addEventListener('beforeunload', () => {
       globalShortcut.unregisterAll();
@@ -28,7 +28,26 @@ class App extends Component {
           {
             label: 'Edit Splits',
             click: () => {
-              history.push('/splits');
+            },
+          },
+          {
+            label: 'Edit Settings',
+            click: () => {
+              const { BrowserWindow } = remote;
+              this.menu = new BrowserWindow({
+                webPreferences: {
+                  nodeIntegration: true,
+                  nativeWindowOpen: true,
+                },
+                width: 400,
+                height: 680,
+                transparent: true,
+                hasShadow: false,
+              });
+              this.menu.on('closed', () => {
+                this.menu = null;
+              });
+              this.menu.loadURL('http://localhost:3000?settings');
             },
           },
         ],
@@ -55,10 +74,7 @@ class App extends Component {
     return (
       <Provider store={configureStore()}>
         <AppContainer>
-          <Router history={history}>
-            <Route exact path="/" component={Timer} />
-            <Route exact path="/splits" component={SplitsMenu} />
-          </Router>
+          <ViewManager />
         </AppContainer>
       </Provider>
     );

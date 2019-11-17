@@ -9,6 +9,8 @@ import {
   history,
 } from '../../../utils';
 
+const { remote } = window.require('electron');
+
 class SplitsMenu extends React.Component {
   state = {
     splits: [],
@@ -156,8 +158,8 @@ class SplitsMenu extends React.Component {
   saveSplits = () => {
     const { splits } = this.state;
     saveSplitFile(splits);
-
-    history.push('/');
+    const win = remote.getCurrentWindow();
+    win.close();
   }
 
   render() {
@@ -219,7 +221,15 @@ class SplitsMenu extends React.Component {
             </SplitContainer>
           );
         })}
-        <Button onClick={() => history.push('/')} type="button">Cancel</Button>
+        <Button
+          onClick={() => {
+            const win = remote.getCurrentWindow();
+            win.close();
+          }}
+          type="button"
+        >
+Cancel
+        </Button>
         <Button onClick={() => this.saveSplits()} type="button">Save</Button>
       </SplitsMenuContainer>
     );

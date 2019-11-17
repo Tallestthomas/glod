@@ -16,6 +16,7 @@ import {
 import {
   saveSplitFile,
 } from '../../utils';
+import DesktopCapture from '../DesktopCapture';
 import {
   Stopwatch,
   Controls,
@@ -157,6 +158,7 @@ class TimerComponent extends React.Component {
           start={this.startTimer}
           stop={this.stopTimer}
         />
+        <DesktopCapture start={this.startTimer} split={this.splitTime} />
       </div>
     );
   }

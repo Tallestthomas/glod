@@ -16,6 +16,7 @@ function createWindow() {
   mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
+      nativeWindowOpen: true,
     },
     width: 400,
     height: 680,
@@ -23,7 +24,7 @@ function createWindow() {
     hasShadow: false,
   });
 
-  mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../index.html')}`);
+  mainWindow.loadURL(isDev ? 'http://localhost:3000?timer' : `file://${path.join(__dirname, '../index.html?timer')}`);
 
   if (isDev) {
     BrowserWindow.addDevToolsExtension(
