@@ -26,22 +26,17 @@ class App extends Component {
         label: 'Preferences',
         submenu: [
           {
-            label: 'Edit Splits',
-            click: () => {
-            },
-          },
-          {
             label: 'Edit Settings',
             click: () => {
               const { BrowserWindow } = remote;
               this.menu = new BrowserWindow({
+                modal: true,
                 webPreferences: {
                   nodeIntegration: true,
                   nativeWindowOpen: true,
                 },
-                width: 400,
+                width: 720,
                 height: 680,
-                transparent: true,
                 hasShadow: false,
               });
               this.menu.on('closed', () => {
@@ -88,5 +83,5 @@ const AppContainer = styled.div`
 font-family: Verdana, sans-serif;
 font-weight: bold;
 background: #344e5c;
-height: 100vh;
+height: 100%;
 `;

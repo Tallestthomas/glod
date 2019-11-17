@@ -179,4 +179,5 @@ export default connect(mapStateToProps)(TimerComponent);
 
 const TimeContainer = styled.div`
 padding-top: 2rem;
+height: 100%;
 `;

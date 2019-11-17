@@ -7,6 +7,7 @@ const {
 const os = require('os');
 const isDev = require('electron-is-dev');
 const path = require('path');
+const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 
 const { channels } = require('../src/shared/constants');
 
@@ -27,12 +28,13 @@ function createWindow() {
   mainWindow.loadURL(isDev ? 'http://localhost:3000?timer' : `file://${path.join(__dirname, '../index.html?timer')}`);
 
   if (isDev) {
-    BrowserWindow.addDevToolsExtension(
-      path.join(os.homedir(), '/Library/Application\ Support/Google/Chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.17.0_0'),
-    );
-    BrowserWindow.addDevToolsExtension(
-      path.join(os.homedir(), '/Library/Application\ Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/4.2.0_0'),
-    );
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log('An error occurred: ', err));
+
+    installExtension(REDUX_DEVTOOLS)
+      .then((name) => console.log(`Added Extension:  ${name}`))
+      .catch((err) => console.log('An error occurred: ', err));
   }
 
   mainWindow.on('closed', () => {

@@ -223,8 +223,10 @@ class SplitsMenu extends React.Component {
         })}
         <Button
           onClick={() => {
+            console.log('closing');
             const win = remote.getCurrentWindow();
-            win.close();
+            console.log(win);
+            // win.close();
           }}
           type="button"
         >
