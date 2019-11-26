@@ -4,10 +4,8 @@ const {
   ipcMain,
   globalShortcut,
 } = require('electron');
-const os = require('os');
 const isDev = require('electron-is-dev');
 const path = require('path');
-const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
 
 const { channels } = require('../src/shared/constants');
 
@@ -28,6 +26,7 @@ function createWindow() {
   mainWindow.loadURL(isDev ? 'http://localhost:3000?timer' : `file://${path.join(__dirname, '../index.html?timer')}`);
 
   if (isDev) {
+    const { default: installExtension, REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } = require('electron-devtools-installer');
     installExtension(REACT_DEVELOPER_TOOLS)
       .then((name) => console.log(`Added Extension:  ${name}`))
       .catch((err) => console.log('An error occurred: ', err));
