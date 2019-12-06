@@ -3,13 +3,34 @@ const {
   BrowserWindow,
   ipcMain,
   globalShortcut,
+  Menu,
 } = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
 
 const { channels } = require('../src/shared/constants');
 
-let mainWindow;
+app.disableHardwareAcceleration();
+
+let mainWindow = null;
+let menuWindow = null;
+
+function createMenu() {
+  menuWindow = new BrowserWindow({
+    webPreferences: {
+      nodeIntegration: true,
+    },
+    width: 720,
+    height: 680,
+    hasShadow: false,
+  });
+
+  menuWindow.loadURL('http://localhost:3000?settings');
+
+  menuWindow.on('closed', () => {
+    menuWindow = null;
+  });
+}
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -39,7 +60,31 @@ function createWindow() {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+
+  const template = [
+    {
+      label: 'Preferences',
+      submenu: [
+        {
+          label: 'Edit Settings',
+          click: () => createMenu(),
+        },
+      ],
+    },
+    {
+      label: 'Help',
+      submenu: [
+        { role: 'toggleDevTools' },
+        { role: 'reload' },
+      ],
+    },
+  ];
+
+  const menu = Menu.buildFromTemplate(template);
+
+  Menu.setApplicationMenu(menu);
 }
+
 
 app.on('ready', createWindow);
 

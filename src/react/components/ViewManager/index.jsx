@@ -21,9 +21,7 @@ class ViewManager extends React.Component {
   render() {
     return (
       <Router history={history}>
-        <div>
-          <Route path="/" component={ViewManager.View} />
-        </div>
+        <Route path="/" component={ViewManager.View} />
       </Router>
     );
   }

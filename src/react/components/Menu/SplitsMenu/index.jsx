@@ -9,7 +9,7 @@ import {
   history,
 } from '../../../utils';
 
-const { remote } = window.require('electron');
+const { remote, ipcRenderer } = window.require('electron');
 
 class SplitsMenu extends React.Component {
   state = {
@@ -223,10 +223,7 @@ class SplitsMenu extends React.Component {
         })}
         <Button
           onClick={() => {
-            console.log('closing');
-            const win = remote.getCurrentWindow();
-            console.log(win);
-            // win.close();
+            ipcRenderer.send('close-menu');
           }}
           type="button"
         >
