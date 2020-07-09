@@ -1,6 +1,11 @@
 import { msToTime, timeToMs } from '..';
 
 describe('timeToMs', () => {
+  it('should convert ms to timestamp', () => {
+    const ms = '170410';
+    const time = timeToMs(170410);
+    console.log(time);
+  });
   it('should convert hours to ms', () => {
     const time = '1:00:00';
     const ms = timeToMs(time);
